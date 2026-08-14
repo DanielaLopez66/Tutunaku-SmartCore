@@ -14,12 +14,12 @@ Docs/
 └── Tutunaku-Documentación.pdf
 ```
 
-| Archivo | Propósito | Responsable sugerido |
-|---|---|---|
-| [`API.md`](./API.md) | Endpoints, autenticación, contratos, códigos de respuesta y ejemplos | Backend/FastAPI |
-| [`Database.md`](./Database.md) | MySQL, MongoDB, entidades, relaciones, índices y calidad | Responsable de datos/DBA |
-| [`Tutunaku-Documentación.pdf`](./Tutunaku-Documentación.pdf) | Documento formal del proyecto y evidencia académica | Equipo de documentación |
-| `README.md` | Índice, estándares y mantenimiento de la documentación | Equipo Tutunaku |
+| Archivo                                                         | Propósito                                                             | Responsable sugerido     |
+| --------------------------------------------------------------- | ---------------------------------------------------------------------- | ------------------------ |
+| [`API.md`](./API.md)                                           | Endpoints, autenticación, contratos, códigos de respuesta y ejemplos | Backend/FastAPI          |
+| [`Database.md`](./Database.md)                                 | MySQL, MongoDB, entidades, relaciones, índices y calidad              | Responsable de datos/DBA |
+| [`Tutunaku-Documentación.pdf`](./Tutunaku-Documentación.pdf) | Documento formal del proyecto y evidencia académica                   | Equipo de documentación |
+| `README.md`                                                   | Índice, estándares y mantenimiento de la documentación              | Equipo Tutunaku          |
 
 ## 2. Mapa documental
 
@@ -53,17 +53,17 @@ flowchart TD
 
 ### Dominios de endpoints sugeridos
 
-| Dominio | Ejemplos |
-|---|---|
-| Salud | `GET /health`, `GET /ready` |
-| Autenticación | `POST /auth/register`, `POST /auth/login`, `POST /auth/refresh` |
-| Usuario | `GET /users/me`, `PATCH /users/me` |
-| Cursos y lecciones | `GET /courses`, `GET /lessons/{lesson_id}` |
-| Ejercicios | `GET /exercises/{id}`, `POST /exercises/{id}/attempts` |
-| Progreso | `GET /progress/me`, `POST /lessons/{id}/complete` |
-| Gamificación | `GET /achievements`, `GET /leaderboard`, `GET /streak` |
-| Juegos y experiencias | `GET /activities`, `POST /activities/{id}/complete` |
-| Machine Learning | `POST /ml/predictions/{scenario_id}`, `GET /ml/segments/{scenario_id}` |
+| Dominio               | Ejemplos                                                                   |
+| --------------------- | -------------------------------------------------------------------------- |
+| Salud                 | `GET /health`, `GET /ready`                                            |
+| Autenticación        | `POST /auth/register`, `POST /auth/login`, `POST /auth/refresh`      |
+| Usuario               | `GET /users/me`, `PATCH /users/me`                                     |
+| Cursos y lecciones    | `GET /courses`, `GET /lessons/{lesson_id}`                             |
+| Ejercicios            | `GET /exercises/{id}`, `POST /exercises/{id}/attempts`                 |
+| Progreso              | `GET /progress/me`, `POST /lessons/{id}/complete`                      |
+| Gamificación         | `GET /achievements`, `GET /leaderboard`, `GET /streak`               |
+| Juegos y experiencias | `GET /activities`, `POST /activities/{id}/complete`                    |
+| Machine Learning      | `POST /ml/predictions/{scenario_id}`, `GET /ml/segments/{scenario_id}` |
 
 Los nombres exactos deben coincidir con la implementación real. La tabla anterior representa la organización recomendada.
 
@@ -132,14 +132,14 @@ Responsable de:
 
 La documentación de la API y de la base de datos es necesaria para reproducir los modelos.
 
-| Cambio | Documentos que deben revisarse |
-|---|---|
-| Se agrega un campo a `exercise_attempts` | `Database.md`, `DataModels/README.md` y escenarios relacionados |
-| Cambia un endpoint | `API.md` y ejemplos del README principal |
-| Cambia la regla de XP o vidas | `Database.md`, S06, S09 y S10 |
-| Se modifica una etiqueta | README supervisado y model card |
-| Cambia una variante aceptada | `Database.md`, S03, S05, U06 y U09 |
-| Se publica una versión del modelo | API, model card y registro de cambios |
+| Cambio                                    | Documentos que deben revisarse                                      |
+| ----------------------------------------- | ------------------------------------------------------------------- |
+| Se agrega un campo a`exercise_attempts` | `Database.md`, `DataModels/README.md` y escenarios relacionados |
+| Cambia un endpoint                        | `API.md` y ejemplos del README principal                          |
+| Cambia la regla de XP o vidas             | `Database.md`, S06, S09 y S10                                     |
+| Se modifica una etiqueta                  | README supervisado y model card                                     |
+| Cambia una variante aceptada              | `Database.md`, S03, S05, U06 y U09                                |
+| Se publica una versión del modelo        | API, model card y registro de cambios                               |
 
 ## 6. Estándar para cada documento
 
@@ -202,12 +202,12 @@ owner: backend_team
 
 ### Estados
 
-| Estado | Significado |
-|---|---|
-| `draft` | Documento en elaboración |
-| `review` | En revisión técnica o pedagógica |
-| `approved` | Aprobado para la versión indicada |
-| `deprecated` | Sustituido por otra versión |
+| Estado         | Significado                         |
+| -------------- | ----------------------------------- |
+| `draft`      | Documento en elaboración           |
+| `review`     | En revisión técnica o pedagógica |
+| `approved`   | Aprobado para la versión indicada  |
+| `deprecated` | Sustituido por otra versión        |
 
 ## 10. Flujo de actualización
 
@@ -247,7 +247,14 @@ Nunca se deben publicar:
 
 Los ejemplos deben utilizar valores ficticios como `user_uuid`, `example.com` o variables de entorno.
 
-## 13. Navegación
+## 13. Figma
+El prototipo de Tutunakun presenta el diseño visual y la experiencia de usuario propuesta para la plataforma. En él se muestran las principales pantallas, navegación, componentes interactivos y elementos de gamificación, permitiendo visualizar cómo los usuarios podrán aprender la lengua tutunaku de una manera dinámica, intuitiva y atractiva.
+
+A continuación, puedes consultar el prototipo completo desarrollado en Figma:
+
+https://www.figma.com/design/7NwePiVzrvE2uQHwuERrl0/Sin-t%C3%ADtulo?node-id=0-1&t=7BlFqxGco6uu7ud4-1
+
+## 14. Navegación
 
 - [Volver al README principal](../README.md)
 - [Catálogo de datos](../DataModels/README.md)
@@ -256,4 +263,3 @@ Los ejemplos deben utilizar valores ficticios como `user_uuid`, `example.com` o 
 - [API](./API.md)
 - [Base de datos](./Database.md)
 - [Documento general](./Tutunaku-Documentación.pdf)
-
