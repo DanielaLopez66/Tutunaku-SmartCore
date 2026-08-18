@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Corazón Alebrije simplificado (mascota de Tutunaku), placeholder de ícono -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#FF6B6B"
+        android:pathData="M54,80 C40,65 20,52 20,36 C20,22 32,14 44,20 C50,23 54,30 54,30 C54,30 58,23 64,20 C76,14 88,22 88,36 C88,52 68,65 54,80 Z" />
+    <path
+        android:fillColor="#4ECDC4"
+        android:pathData="M54,30 C54,30 50,23 44,20 C40,18 36,18.5 33,20.5 C40,24 46,29 54,42 C62,29 68,24 75,20.5 C72,18.5 68,18 64,20 C58,23 54,30 54,30 Z" />
+</vector>
