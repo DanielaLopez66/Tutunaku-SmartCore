@@ -3,7 +3,7 @@
 # Tutunakun
 
 <p align="center">
-  <img src="imagenes/logo empresa.png" alt="Logo Empresa" width="200"/>
+  <img src="imagenes/Logo empresa.png" alt="Logo Empresa" width="200"/>
   &nbsp;&nbsp;&nbsp;&nbsp;
   <img src="imagenes/Logo tutunaku.png" alt="Logo Tutunaku" width="200"/>
 </p>
@@ -28,8 +28,6 @@
 <br>
 
 </div>
-
----
 <div align="center">
 
 ---
