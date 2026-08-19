@@ -166,22 +166,28 @@ export const adminApi = {
 }
 
 // ── API Inteligente (/api/ml) ────────────────────────────
-// Vive fuera de /api/v1 (igual que en el backend), por eso se usan URLs
-// absolutas sobre ROOT_URL en vez del baseURL de `api` — pero reutilizando
-// la misma instancia de axios para heredar los interceptors de auth/refresh.
+// Vive fuera de /api/v1 (igual que en el backend). Se reutiliza la misma
+// instancia de axios (para heredar los interceptors de auth/refresh), pero
+// pasando `baseURL` explícito por request: así se ignora el `baseURL: /api/v1`
+// de la instancia sin importar si ROOT_URL es una URL absoluta (dev, con
+// host) o una cadena vacía (producción, VITE_API_URL relativo tipo
+// "/api/v1") — con baseURL config vacío, axios usa la url tal cual, en vez
+// de volver a anteponerle /api/v1 (eso causaba pedir /api/v1/api/ml/... y
+// que nginx respondiera 404 en el dashboard de ML).
 const ML_URL = `${ROOT_URL}/api/ml`
+const mlConfig = { baseURL: ROOT_URL }
 
 export const mlApi = {
-  health: () => api.get(`${ML_URL}/health`),
-  listModels: () => api.get(`${ML_URL}/models`),
-  listInferences: (limit = 50) => api.get(`${ML_URL}/inferences?limit=${limit}`),
-  predictTime: (data: object) => api.post(`${ML_URL}/predict-time`, data),
-  predictSuccess: (data: object) => api.post(`${ML_URL}/predict-success`, data),
-  detectAnomaly: (data: object) => api.post(`${ML_URL}/detect-anomaly`, data),
-  segmentUser: (data: object) => api.post(`${ML_URL}/segment-user`, data),
+  health: () => api.get(`${ML_URL}/health`, mlConfig),
+  listModels: () => api.get(`${ML_URL}/models`, mlConfig),
+  listInferences: (limit = 50) => api.get(`${ML_URL}/inferences?limit=${limit}`, mlConfig),
+  predictTime: (data: object) => api.post(`${ML_URL}/predict-time`, data, mlConfig),
+  predictSuccess: (data: object) => api.post(`${ML_URL}/predict-success`, data, mlConfig),
+  detectAnomaly: (data: object) => api.post(`${ML_URL}/detect-anomaly`, data, mlConfig),
+  segmentUser: (data: object) => api.post(`${ML_URL}/segment-user`, data, mlConfig),
   platformLoadForecast: (horizonHours = 6) =>
-    api.get(`${ML_URL}/platform-load-forecast?horizon_hours=${horizonHours}`),
-  analyzeNavigation: (data: object) => api.post(`${ML_URL}/analyze-navigation`, data),
-  triggerPlatformLoadUpdate: () => api.post(`${ML_URL}/trigger/platform-load-update`),
-  triggerUserProgressUpdate: () => api.post(`${ML_URL}/trigger/user-progress-update`),
+    api.get(`${ML_URL}/platform-load-forecast?horizon_hours=${horizonHours}`, mlConfig),
+  analyzeNavigation: (data: object) => api.post(`${ML_URL}/analyze-navigation`, data, mlConfig),
+  triggerPlatformLoadUpdate: () => api.post(`${ML_URL}/trigger/platform-load-update`, undefined, mlConfig),
+  triggerUserProgressUpdate: () => api.post(`${ML_URL}/trigger/user-progress-update`, undefined, mlConfig),
 }

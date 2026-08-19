@@ -134,8 +134,13 @@ services:
     environment:
       DOMAIN: ${DOMAIN:-tutunaku.mx}
     ports:
-      - "80:80"
-      - "443:443"
+      # Solo a 127.0.0.1 (tu propia máquina), no a 0.0.0.0 — así abres
+      # https://localhost desde este equipo, pero nadie más en tu red local
+      # (ni por IP ni por hostname) puede alcanzarlo. En un servidor real de
+      # producción, quita el prefijo `127.0.0.1:` para que sí escuche en
+      # todas las interfaces y el mundo pueda llegar por internet.
+      - "127.0.0.1:80:80"
+      - "127.0.0.1:443:443"
     volumes:
       - ./nginx/default.conf.template:/etc/nginx/templates/default.conf.template:ro
       - certbot_certs:/etc/letsencrypt:ro
