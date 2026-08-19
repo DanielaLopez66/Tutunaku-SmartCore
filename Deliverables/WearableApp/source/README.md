@@ -51,3 +51,11 @@ Deliverables/WearableApp/source/
 3. En un emulador de Wear OS, `10.0.2.2:8000` ya apunta al backend local por
    defecto (configurado en Ajustes de la app). En un reloj físico, cambia la
    URL en Ajustes por la IP LAN de tu backend.
+
+## Equipo de Desarrollo
+
+| Integrante | Contacto | Rol |
+| --- | --- | --- |
+| Ana Daniela López Neri | [@DanielaLopez66](https://github.com/DanielaLopez66) | Encargada de Documentación y Líder de Equipo |
+| Brandon León Cabrera | [@bleon26](https://github.com/bleon26) | Encargado de Base de Datos |
+| Tania Ibarra Salgado | [@ibarra-tania](https://github.com/ibarra-tania) | Encargada del Desarrollo |

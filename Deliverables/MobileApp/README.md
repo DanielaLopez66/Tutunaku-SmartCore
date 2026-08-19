@@ -69,3 +69,11 @@ MobileApp/
 ## Documentación completa
 
 📄 [`DeployManual/MobileApp - Manual de Despliegue.pdf`](DeployManual/MobileApp%20-%20Manual%20de%20Despliegue.pdf) — arquitectura completa, cada pantalla explicada, cómo funciona el camino de niveles, la sincronización con el reloj paso a paso, cómo compilarla e instalarla, y los problemas reales encontrados durante las pruebas.
+
+## Equipo de Desarrollo
+
+| Integrante | Contacto | Rol |
+| --- | --- | --- |
+| Ana Daniela López Neri | [@DanielaLopez66](https://github.com/DanielaLopez66) | Encargada de Documentación y Líder de Equipo |
+| Brandon León Cabrera | [@bleon26](https://github.com/bleon26) | Encargado de Base de Datos |
+| Tania Ibarra Salgado | [@ibarra-tania](https://github.com/ibarra-tania) | Encargada del Desarrollo |
