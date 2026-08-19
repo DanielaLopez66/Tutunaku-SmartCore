@@ -1,0 +1,16 @@
+# ============================================
+# Tutunaku - Ciencia de Datos / Machine Learning
+# Python 3.11+ (notebooks, simulación, ETL, entrenamiento)
+# ============================================
+
+numpy
+pandas
+scikit-learn
+joblib
+matplotlib
+seaborn
+jupyter
+ipykernel
+nbformat
+statsmodels
+pytest

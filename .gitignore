@@ -1,42 +1,53 @@
-# Android / Gradle
-**/build/
-build/
-.gradle/
+# Entornos virtuales
+venv/
+venv_run/
+.venv/
+__pycache__/
+*.pyc
 
-# Configuración local
-local.properties
-
-# Android Studio / IntelliJ
-.idea/
-*.iml
-
-# Archivos del sistema
-.DS_Store
-Thumbs.db
-
-# Node.js
+# Node
 node_modules/
 dist/
-dist-ssr/
-*.local
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+build/
 
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-.venv/
-venv/
-env/
-*.egg-info/
-
-# Variables de entorno / secretos
+# Variables de entorno reales (no subir secretos)
 .env
-.env.*
+.env.local
 !.env.example
 
-# Editores
+# Datos y artefactos generados (reproducibles vía simulation/ y database/warehouse/)
+data/raw/*.csv
+data/processed/*
+data/training/*
+data/validation/*
+data/test/*
+data/inference/*
+!data/**/.gitkeep
+database/warehouse/*.sqlite
+models/serialized/*.joblib
+models/serialized/*.json
+!models/serialized/.gitkeep
+
+# Notebooks: checkpoints de Jupyter
+.ipynb_checkpoints/
+
+# Pytest
+.pytest_cache/
+
+# Uploads locales del backend
+Deliverables/WebApp/source/backend/uploads/*
+!Deliverables/WebApp/source/backend/uploads/.gitkeep
+
+# Android / Wear OS (WearableApp)
+Deliverables/WearableApp/source/local.properties
+Deliverables/WearableApp/source/.gradle/
+Deliverables/WearableApp/source/**/build/
+Deliverables/WearableApp/source/.idea/
+Deliverables/WearableApp/source/**/*.iml
+Deliverables/WearableApp/source/captures/
+Deliverables/WearableApp/source/.cxx/
+
+# Sistema operativo / editor
+.DS_Store
+Thumbs.db
 .vscode/
-*.swp
