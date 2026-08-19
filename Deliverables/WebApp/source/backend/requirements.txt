@@ -1,0 +1,73 @@
+# ============================================
+# Tutunaku Backend - Requirements
+# Python 3.11+
+# ============================================
+
+# Framework principal
+fastapi
+uvicorn[standard]
+
+# Base de datos - MySQL
+sqlalchemy
+pymysql
+aiomysql
+alembic
+
+# Base de datos - MongoDB
+motor
+beanie
+dnspython
+
+# Autenticación y Seguridad
+python-jose[cryptography]
+passlib[bcrypt]
+bcrypt
+python-multipart
+argon2-cffi
+
+# Validación y serialización
+pydantic
+pydantic-settings
+email-validator
+
+# HTTP y CORS
+httpx
+
+# Rate limiting
+slowapi
+
+# Variables de entorno
+python-dotenv
+
+# Logging estructurado
+structlog
+
+# Tareas en background / notificaciones
+apscheduler
+
+# Email
+fastapi-mail
+
+# Utilidades
+python-dateutil
+pytz
+Pillow
+
+# Machine Learning - API inteligente (/api/ml)
+numpy
+pandas
+scikit-learn
+joblib
+
+# Tiempo real - Dashboard Socket.IO
+python-socketio
+python-engineio
+
+# Testing
+pytest
+pytest-asyncio
+httpx
+
+# Desarrollo
+black
+isort

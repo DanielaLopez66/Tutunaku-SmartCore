@@ -1,0 +1,96 @@
+# Proxy inverso + balanceador de carga + terminación TLS para Tutunaku.
+# `${DOMAIN}` se sustituye en el arranque por el entrypoint oficial de la
+# imagen nginx (envsubst sobre *.template -> /etc/nginx/conf.d/*.conf),
+# usando la variable de entorno DOMAIN definida en docker-compose/.env.
+
+# --- Balanceo de carga hacia el servidor de aplicaciones ---
+# ip_hash: sesiones "pegajosas" por IP de cliente. Necesario porque
+# Socket.IO (dashboard en tiempo real + reloj Wear OS) guarda su estado de
+# conexión en memoria de CADA proceso backend; sin sticky sessions, un
+# cliente podría hacer el handshake HTTP en una réplica y el long-poll/
+# websocket en otra, rompiendo la conexión. Para más réplicas, agrega más
+# líneas `server backend_N:8000;` aquí Y en docker-compose.yml.
+upstream tutunaku_backend {
+    ip_hash;
+    server backend_1:8000 max_fails=3 fail_timeout=10s;
+    server backend_2:8000 max_fails=3 fail_timeout=10s;
+}
+
+# --- Puerto 80: reto ACME de Let's Encrypt + redirección a HTTPS ---
+server {
+    listen 80;
+    server_name ${DOMAIN};
+
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+
+    location /healthz {
+        access_log off;
+        return 200 "ok\n";
+        add_header Content-Type text/plain;
+    }
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+# --- Puerto 443: sitio real (frontend estático + proxy /api + /socket.io) ---
+server {
+    listen 443 ssl;
+    http2 on;
+    server_name ${DOMAIN};
+
+    ssl_certificate     /etc/letsencrypt/live/${DOMAIN}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/${DOMAIN}/privkey.pem;
+    ssl_protocols       TLSv1.2 TLSv1.3;
+    ssl_ciphers         HIGH:!aNULL:!MD5;
+    ssl_session_cache   shared:SSL:10m;
+
+    add_header Strict-Transport-Security "max-age=63072000" always;
+
+    root /usr/share/nginx/html;
+    index index.html;
+
+    # SPA de React Router: cualquier ruta desconocida cae en index.html.
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # API REST (FastAPI) — repartida entre las réplicas del backend.
+    location /api/ {
+        proxy_pass http://tutunaku_backend;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Dashboard en tiempo real + reloj Wear OS (Socket.IO): requiere el
+    # upgrade de conexión a WebSocket y timeouts largos (conexión persistente).
+    location /socket.io/ {
+        proxy_pass http://tutunaku_backend;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 3600s;
+    }
+
+    # Archivos subidos por usuarios (avatares, etc.), servidos por el backend.
+    location /uploads/ {
+        proxy_pass http://tutunaku_backend;
+        proxy_set_header Host $host;
+    }
+
+    location /healthz {
+        access_log off;
+        return 200 "ok\n";
+        add_header Content-Type text/plain;
+    }
+}

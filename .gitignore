@@ -13,3 +13,30 @@ local.properties
 # Archivos del sistema
 .DS_Store
 Thumbs.db
+
+# Node.js
+node_modules/
+dist/
+dist-ssr/
+*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+*.egg-info/
+
+# Variables de entorno / secretos
+.env
+.env.*
+!.env.example
+
+# Editores
+.vscode/
+*.swp
