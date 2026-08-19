@@ -1,4 +1,35 @@
+<div align="center">
 
+# Tutunakun
+
+<p align="center">
+  <img src="imagenes/logo empresa.png" alt="Logo Empresa" width="200"/>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="imagenes/Logo tutunaku.png" alt="Logo Tutunaku" width="200"/>
+</p>
+
+## Plataforma web gamificada para la enseñanza, rescate y difusión de la lengua totonaca
+
+**Preservando la lengua totonaca, una lección a la vez.**
+
+<br>
+
+<img src="https://img.shields.io/badge/Estado-En%20desarrollo%20acad%C3%A9mico-6C63FF?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/Enfoque-Design%20Thinking-FF6F61?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/Tipo-Plataforma%20educativa-009688?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/Responsive-Mobile%20First-38B2AC?style=for-the-badge"/>
+
+<br>
+<br>
+
+<img src="https://skillicons.dev/icons?i=react,ts,vite,tailwind,python,fastapi,mysql,mongodb,git,github,vscode" />
+
+<br>
+<br>
+
+</div>
+
+---
 <div align="center">
 
 ---
