@@ -1,0 +1,33 @@
+[MASTER]
+ignore=CVS
+ignore-patterns=
+persistent=yes
+load-plugins=pylint_pydantic
+
+[MESSAGES CONTROL]
+disable=
+    C0114, # missing-module-docstring (already added most)
+    C0115, # missing-class-docstring
+    C0116, # missing-function-docstring
+    R0903, # too-few-public-methods (common in models/schemas)
+    E1102, # not-callable (false positive on func.now)
+    W0703, # broad-except (sometimes needed in generic handlers)
+    C0103, # invalid-name (already fixed many, but Enums can be tricky)
+    E0611, # no-name-in-module (pydantic/fastapi false positives)
+    import-error, # often fails in different envs
+
+[REPORTS]
+output-format=text
+files-output=no
+reports=yes
+evaluation=10.0 - ((float(5 * error + f_error + warning + refactor + convention) / statement) * 10)
+
+[BASIC]
+good-names=i,j,k,ex,Run,_,db,id
+method-rgx=[a-z_][a-z0-9_]{2,30}$
+function-rgx=[a-z_][a-z0-9_]{2,30}$
+class-rgx=[A-Z_][a-zA-Z0-9]+$
+
+[FORMAT]
+max-line-length=100
+ignore-long-lines=^\s*(# )?<?https?://\S+>?$

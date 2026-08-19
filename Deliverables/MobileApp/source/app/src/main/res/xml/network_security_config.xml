@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Solo para desarrollo: permite HTTP sin cifrar hacia el backend local.
+  10.0.2.2 es el alias del emulador de Android hacia "localhost" de la
+  máquina anfitriona. Si pruebas en un teléfono físico en la misma red
+  Wi-Fi, agrega aquí la IP LAN de tu backend (ej. 192.168.1.50) o cambia
+  la URL desde la pantalla de Ajustes/Perfil de la app.
+-->
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">10.0.2.2</domain>
+        <domain includeSubdomains="true">localhost</domain>
+        <domain includeSubdomains="true">127.0.0.1</domain>
+    </domain-config>
+</network-security-config>
