@@ -1,0 +1,53 @@
+# Entornos virtuales
+venv/
+venv_run/
+.venv/
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+dist/
+build/
+
+# Variables de entorno reales (no subir secretos)
+.env
+.env.local
+!.env.example
+
+# Datos y artefactos generados (reproducibles vía simulation/ y database/warehouse/)
+data/raw/*.csv
+data/processed/*
+data/training/*
+data/validation/*
+data/test/*
+data/inference/*
+!data/**/.gitkeep
+database/warehouse/*.sqlite
+models/serialized/*.joblib
+models/serialized/*.json
+!models/serialized/.gitkeep
+
+# Notebooks: checkpoints de Jupyter
+.ipynb_checkpoints/
+
+# Pytest
+.pytest_cache/
+
+# Uploads locales del backend
+Deliverables/WebApp/source/backend/uploads/*
+!Deliverables/WebApp/source/backend/uploads/.gitkeep
+
+# Android / Wear OS (WearableApp)
+Deliverables/WearableApp/source/local.properties
+Deliverables/WearableApp/source/.gradle/
+Deliverables/WearableApp/source/**/build/
+Deliverables/WearableApp/source/.idea/
+Deliverables/WearableApp/source/**/*.iml
+Deliverables/WearableApp/source/captures/
+Deliverables/WearableApp/source/.cxx/
+
+# Sistema operativo / editor
+.DS_Store
+Thumbs.db
+.vscode/

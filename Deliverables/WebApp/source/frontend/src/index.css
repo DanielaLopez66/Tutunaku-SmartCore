@@ -1,0 +1,185 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ================================================
+   TUTUNAKU — Global Styles
+   Inspirado en alebrijes mexicanos
+   ================================================ */
+
+@layer base {
+  :root {
+    --color-primary:   #FF6B6B;
+    --color-teal:      #4ECDC4;
+    --color-gold:      #FDCB6E;
+    --color-violet:    #A29BFE;
+    --color-bg:        #FAFAF8;
+    --color-surface:   #FFFFFF;
+    --color-text:      #1A1A2E;
+    --color-muted:     #6B7280;
+    --color-border:    #E5E7EB;
+  }
+
+  .dark {
+    --color-bg:        #0F0F1A;
+    --color-surface:   #1A1A2E;
+    --color-text:      #F0F0FF;
+    --color-muted:     #9CA3AF;
+    --color-border:    #0F3460;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  body {
+    @apply bg-[var(--color-bg)] text-[var(--color-text)] transition-colors duration-300;
+    font-family: 'Nunito', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  /* Scrollbar personalizado */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-alebrije-coral/40 rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-alebrije-coral/70;
+  }
+}
+
+@layer components {
+  /* ── Botones ── */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2
+           px-6 py-3 rounded-2xl font-bold text-white
+           bg-alebrije-coral hover:bg-primary-600
+           active:scale-95 transition-all duration-150
+           shadow-glow-coral hover:shadow-lg
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2
+           px-6 py-3 rounded-2xl font-bold
+           bg-alebrije-teal/10 hover:bg-alebrije-teal/20
+           text-alebrije-teal border border-alebrije-teal/30
+           active:scale-95 transition-all duration-150
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2
+           px-4 py-2 rounded-xl font-semibold
+           hover:bg-gray-100 dark:hover:bg-dark-muted
+           active:scale-95 transition-all duration-150;
+  }
+
+  /* ── Cards ── */
+  .card {
+    @apply bg-[var(--color-surface)] rounded-3xl
+           border border-[var(--color-border)]
+           shadow-card dark:shadow-card-dark
+           transition-all duration-200;
+  }
+
+  .card-hover {
+    @apply card hover:shadow-alebrije hover:-translate-y-1
+           cursor-pointer;
+  }
+
+  /* ── Input ── */
+  .input {
+    @apply w-full px-4 py-3 rounded-2xl
+           bg-gray-50 dark:bg-dark-muted
+           border-2 border-[var(--color-border)]
+           focus:outline-none focus:border-alebrije-coral
+           transition-colors duration-200 font-body text-base;
+  }
+
+  /* ── Badge ── */
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-3 py-1
+           rounded-full text-xs font-bold uppercase tracking-wide;
+  }
+
+  /* ── XP Bar ── */
+  .xp-bar {
+    @apply h-3 rounded-full bg-gray-200 dark:bg-dark-muted overflow-hidden;
+  }
+
+  .xp-bar-fill {
+    @apply h-full rounded-full bg-alebrije-gradient
+           transition-all duration-700 ease-out;
+  }
+
+  /* ── Fontes display ── */
+  .font-display {
+    font-family: 'Baloo 2', cursive;
+  }
+
+  /* ── Gradiente de texto ── */
+  .gradient-text {
+    @apply bg-alebrije-gradient bg-clip-text text-transparent;
+  }
+
+  /* ── Patrón de alebrijes (fondo decorativo) ── */
+  .alebrije-pattern {
+    background-image:
+      radial-gradient(circle at 20% 50%, rgba(255,107,107,0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(78,205,196,0.08) 0%, transparent 50%),
+      radial-gradient(circle at 60% 80%, rgba(162,155,254,0.08) 0%, transparent 50%);
+  }
+}
+
+@layer utilities {
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Animación de corazón latiendo */
+  .animate-heart {
+    animation: heartbeat 1.5s ease-in-out infinite;
+  }
+
+  /* Shake al error */
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%       { transform: translateX(-8px); }
+    40%       { transform: translateX(8px); }
+    60%       { transform: translateX(-5px); }
+    80%       { transform: translateX(5px); }
+  }
+  .animate-shake {
+    animation: shake 0.4s ease-in-out;
+  }
+
+  /* Glow success */
+  @keyframes successGlow {
+    0%   { box-shadow: 0 0 0 0 rgba(78, 205, 196, 0.7); }
+    70%  { box-shadow: 0 0 0 15px rgba(78, 205, 196, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(78, 205, 196, 0); }
+  }
+  .animate-success-glow {
+    animation: successGlow 0.6s ease-out;
+  }
+}

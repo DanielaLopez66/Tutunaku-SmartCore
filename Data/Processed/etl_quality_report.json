@@ -1,0 +1,127 @@
+{
+  "extraction": {
+    "users": {
+      "filas": 800,
+      "columnas": [
+        "user_id",
+        "signup_date",
+        "region",
+        "device_type",
+        "engagement_segment",
+        "base_connectivity_score"
+      ]
+    },
+    "exercises": {
+      "filas": 120,
+      "columnas": [
+        "exercise_id",
+        "type",
+        "difficulty",
+        "base_time_seconds"
+      ]
+    },
+    "exercise_attempts": {
+      "filas": 60180,
+      "columnas": [
+        "attempt_id",
+        "user_id",
+        "exercise_id",
+        "timestamp",
+        "attempt_number",
+        "difficulty",
+        "connectivity_quality",
+        "device_type",
+        "hearts_before",
+        "is_correct",
+        "time_spent_seconds"
+      ]
+    },
+    "challenge_attempts": {
+      "filas": 18000,
+      "columnas": [
+        "challenge_id",
+        "user_id",
+        "difficulty",
+        "num_exercises",
+        "connectivity_quality",
+        "device_type",
+        "prior_success_rate_30d",
+        "hearts_start",
+        "hearts_end",
+        "completed_with_lives"
+      ]
+    },
+    "platform_load": {
+      "filas": 2880,
+      "columnas": [
+        "timestamp",
+        "hour_of_day",
+        "day_of_week",
+        "active_users",
+        "requests_per_minute",
+        "db_connections",
+        "avg_response_ms"
+      ]
+    },
+    "xp_events": {
+      "filas": 40270,
+      "columnas": [
+        "event_id",
+        "user_id",
+        "timestamp",
+        "source",
+        "xp_gained",
+        "session_duration_seconds",
+        "is_anomaly_injected"
+      ]
+    },
+    "navigation_events": {
+      "filas": 84215,
+      "columnas": [
+        "session_id",
+        "user_id",
+        "step_index",
+        "page",
+        "timestamp"
+      ]
+    }
+  },
+  "transformation": {
+    "exercise_attempts_duplicados_eliminados": 180,
+    "exercise_attempts_conectividad_imputada": 900,
+    "exercise_attempts_outliers_marcados": 300,
+    "platform_load_huecos_interpolados": 84,
+    "warehouse_sqlite": "C:\\Users\\tass1\\Videos\\tutunakun\\tutunakun\\database\\warehouse\\tutunaku_dw.sqlite"
+  },
+  "validation": {
+    "users_filas": 800,
+    "users_nulos_totales": 0,
+    "exercises_filas": 120,
+    "exercises_nulos_totales": 0,
+    "exercise_attempts_filas": 60000,
+    "exercise_attempts_nulos_totales": 0,
+    "challenge_attempts_filas": 18000,
+    "challenge_attempts_nulos_totales": 0,
+    "platform_load_filas": 2880,
+    "platform_load_nulos_totales": 193,
+    "xp_events_filas": 40270,
+    "xp_events_nulos_totales": 0,
+    "navigation_events_filas": 84215,
+    "navigation_events_nulos_totales": 0,
+    "exercise_attempts_split": {
+      "train": 42000,
+      "validation": 9000,
+      "test": 9000
+    },
+    "challenge_attempts_split": {
+      "train": 12599,
+      "validation": 2699,
+      "test": 2702
+    },
+    "platform_load_split_temporal": {
+      "train": "2026-01-01 00:00:00 -> 2026-03-25 22:00:00",
+      "validation": "2026-03-25 23:00:00 -> 2026-04-12 22:00:00",
+      "test": "2026-04-12 23:00:00 -> 2026-04-30 23:00:00"
+    }
+  }
+}

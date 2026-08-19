@@ -1,0 +1,35 @@
+{
+  "model_name": "time_estimator",
+  "version": "1.0.0",
+  "algorithm": "GradientBoostingRegressor",
+  "task": "regression",
+  "target": "time_spent_seconds",
+  "target_transform": "log1p",
+  "features": [
+    "attempt_number",
+    "difficulty",
+    "connectivity_quality",
+    "device_type",
+    "hour_of_day",
+    "day_of_week",
+    "is_correct",
+    "hearts_before"
+  ],
+  "categorical_features": [
+    "device_type"
+  ],
+  "metrics": {
+    "validation": {
+      "mae": 13.01069710647602,
+      "rmse": 39.84623955860209,
+      "r2": 0.024741963633359565
+    },
+    "test": {
+      "mae": 13.394510010871075,
+      "rmse": 42.848613050777374,
+      "r2": 0.017592348057280827
+    }
+  },
+  "trained_at": "2026-07-31T18:32:39.760606",
+  "notes": "Se compararon RandomForestRegressor y GradientBoostingRegressor con busqueda de hiperparametros via GridSearchCV (3-fold) sobre el set de entrenamiento, entrenando sobre log1p(time_spent_seconds) e invirtiendo con expm1 para evaluar en segundos. Se eligio GradientBoostingRegressor por tener el menor MAE en validacion (13.011s vs el otro candidato)."
+}

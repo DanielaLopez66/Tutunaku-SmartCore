@@ -1,0 +1,174 @@
+name: tutunaku
+
+services:
+  # --- Servidor de base de datos (relacional) ---
+  mysql:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-tutunakun_db}
+      MYSQL_USER: ${MYSQL_USER:-tutunaku_app}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      # Los scripts de /docker-entrypoint-initdb.d solo corren la PRIMERA vez
+      # (volumen de datos vacío) — mismo schema.sql versionado en el repo,
+      # ninguna migración manual a mano.
+      - ../../../../DataBases/SQL/DD/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ../../../../DataBases/SQL/DD/seeds.sql:/docker-entrypoint-initdb.d/02-seeds.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      # La PRIMERA vez que corre (volumen vacío), mysqld se reinicia
+      # internamente para aplicar schema.sql + seeds.sql antes de aceptar
+      # conexiones — sin start_period, los pings fallidos de ese tramo
+      # cuentan contra `retries` y `backend_1/2` (depends_on: service_healthy)
+      # pueden abortar su arranque antes de que mysql realmente esté listo.
+      start_period: 40s
+    networks: [tutunaku_net]
+    ports:
+      # Solo a 127.0.0.1 (tu propia máquina), no a 0.0.0.0 — así puedes
+      # inspeccionar la base con MySQL Workbench sin exponerla a la red/
+      # internet. Puerto 3307 en el host (no 3306) porque este equipo ya
+      # tiene un servicio nativo MYSQL80 usando el 3306 — dentro de la red
+      # de Docker mysql sigue siendo el 3306 normal (backend_1/2 no cambian).
+      # En un servidor real de producción, quita este bloque `ports:` por
+      # completo: la base solo debe ser alcanzable desde backend_1/2 dentro
+      # de la red interna de Docker.
+      - "127.0.0.1:3307:3306"
+
+  # --- Servidor de base de datos (documentos) ---
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks: [tutunaku_net]
+
+  # --- Servidor de aplicaciones (API + Socket.IO), 2 réplicas ---
+  # `backend_1` es la única con ENABLE_SCHEDULER=true: ver la nota en
+  # app/core/config.py sobre por qué el scheduler no debe correr en más de
+  # una réplica a la vez.
+  backend_1:
+    build: ../backend
+    restart: unless-stopped
+    env_file: .env
+    environment: &backend_env
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_USER: ${MYSQL_USER:-tutunaku_app}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-tutunakun_db}
+      MONGODB_URL: mongodb://mongo:27017
+      MONGODB_DATABASE: ${MYSQL_DATABASE:-tutunakun_db}
+      DB_TYPE: both
+      DEBUG: "false"
+      ENVIRONMENT: production
+      SECRET_KEY: ${SECRET_KEY}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      FRONTEND_URL: https://${DOMAIN:-tutunaku.mx}
+      # Envío de correos (verificación de cuenta, recuperación de contraseña).
+      # Sin esto, el backend usa el default de config.py (smtp.gmail.com sin
+      # credenciales) y el envío falla en silencio — el registro igual
+      # responde success porque el email se manda en background.
+      MAIL_USERNAME: ${MAIL_USERNAME:-}
+      MAIL_PASSWORD: ${MAIL_PASSWORD:-}
+      MAIL_FROM: ${MAIL_FROM:-noreply@tutunaku.mx}
+      MAIL_PORT: ${MAIL_PORT:-2525}
+      MAIL_SERVER: ${MAIL_SERVER:-sandbox.smtp.mailtrap.io}
+      MAIL_TLS: ${MAIL_TLS:-true}
+      MAIL_SSL: ${MAIL_SSL:-false}
+      # localhost/127.0.0.1 quedan incluidos por defecto en ALLOWED_HOSTS_RAW
+      # (ver app/core/config.py) para que el HEALTHCHECK del propio
+      # contenedor (Host: localhost) no sea rechazado por TrustedHostMiddleware.
+      # *.trycloudflare.com: solo para exponer este stack local vía un
+      # Cloudflare Quick Tunnel gratuito de prueba/demo (ver DeployManual
+      # §9-bis) — quítalo si nunca usas ese túnel.
+      ALLOWED_HOSTS_RAW: "${DOMAIN:-tutunaku.mx},*.${DOMAIN:-tutunaku.mx},localhost,127.0.0.1,*.trycloudflare.com"
+      ML_MODEL_DIR: /data/models
+      ML_WAREHOUSE_DB: /data/warehouse/tutunaku_dw.sqlite
+      ENABLE_SCHEDULER: "true"
+    volumes:
+      - ../../../../models/serialized:/data/models:ro
+      # Sin :ro — el job de scheduler registra cada inferencia (auditoría/
+      # dashboard) escribiendo en este mismo SQLite, no es solo lectura.
+      - ../../../../database/warehouse:/data/warehouse
+      - uploads_data:/app/uploads
+    depends_on:
+      mysql: { condition: service_healthy }
+      mongo: { condition: service_healthy }
+    networks: [tutunaku_net]
+
+  backend_2:
+    build: ../backend
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      <<: *backend_env
+      ENABLE_SCHEDULER: "false"
+    volumes:
+      - ../../../../models/serialized:/data/models:ro
+      - ../../../../database/warehouse:/data/warehouse
+      - uploads_data:/app/uploads
+    depends_on:
+      mysql: { condition: service_healthy }
+      mongo: { condition: service_healthy }
+    networks: [tutunaku_net]
+
+  # --- Frontend estático + proxy inverso + balanceador de carga + TLS ---
+  frontend:
+    build:
+      context: ../frontend
+      args:
+        VITE_API_URL: /api/v1
+        VITE_APP_NAME: Tutunaku
+    restart: unless-stopped
+    environment:
+      DOMAIN: ${DOMAIN:-tutunaku.mx}
+    ports:
+      # Solo a 127.0.0.1 (tu propia máquina), no a 0.0.0.0 — así abres
+      # https://localhost desde este equipo, pero nadie más en tu red local
+      # (ni por IP ni por hostname) puede alcanzarlo. En un servidor real de
+      # producción, quita el prefijo `127.0.0.1:` para que sí escuche en
+      # todas las interfaces y el mundo pueda llegar por internet.
+      - "127.0.0.1:80:80"
+      - "127.0.0.1:443:443"
+    volumes:
+      - ./nginx/default.conf.template:/etc/nginx/templates/default.conf.template:ro
+      - certbot_certs:/etc/letsencrypt:ro
+      - certbot_webroot:/var/www/certbot:ro
+    depends_on:
+      - backend_1
+      - backend_2
+    networks: [tutunaku_net]
+
+  # --- Certificados de seguridad (Let's Encrypt) ---
+  # No arranca con `docker compose up` normal (perfil `tls`): necesita un
+  # dominio real apuntando por DNS a este servidor y el puerto 80 accesible
+  # desde internet. Ver Deliverables/WebApp/DeployManual para el comando de
+  # emisión y renovación.
+  certbot:
+    image: certbot/certbot
+    profiles: [tls]
+    volumes:
+      - certbot_certs:/etc/letsencrypt
+      - certbot_webroot:/var/www/certbot
+    networks: [tutunaku_net]
+
+networks:
+  tutunaku_net:
+
+volumes:
+  mysql_data:
+  mongo_data:
+  uploads_data:
+  certbot_certs:
+  certbot_webroot:

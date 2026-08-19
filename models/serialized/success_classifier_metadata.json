@@ -1,0 +1,36 @@
+{
+  "model_name": "success_classifier",
+  "version": "1.0.0",
+  "algorithm": "GradientBoostingClassifier",
+  "task": "classification",
+  "target": "completed_with_lives",
+  "features": [
+    "difficulty",
+    "num_exercises",
+    "connectivity_quality",
+    "device_type",
+    "prior_success_rate_30d",
+    "hearts_start"
+  ],
+  "categorical_features": [
+    "device_type"
+  ],
+  "metrics": {
+    "validation": {
+      "accuracy": 0.9221934049648017,
+      "precision": 0.9233915953886203,
+      "recall": 0.9983916365098512,
+      "f1": 0.9594281298299846,
+      "roc_auc": 0.8517612338879154
+    },
+    "test": {
+      "accuracy": 0.9219096965210954,
+      "precision": 0.9227913882702301,
+      "recall": 0.9987946966653274,
+      "f1": 0.9592899864943083,
+      "roc_auc": 0.8670148654077944
+    }
+  },
+  "trained_at": "2026-07-31T18:35:20.689227",
+  "notes": "Se compararon LogisticRegression (class_weight=balanced) y GradientBoostingClassifier con busqueda de hiperparametros via GridSearchCV (3-fold, scoring=F1) sobre el set de entrenamiento. Se excluyo hearts_end de las features por fuga de datos. Se eligio GradientBoostingClassifier por tener el mayor F1 en validacion (0.959)."
+}

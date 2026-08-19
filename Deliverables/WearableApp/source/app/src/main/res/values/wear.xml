@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Nombre de capability compartido con Deliverables/MobileApp/source/app/src/main/res/values/wear.xml
+  (mismo string literal, sin módulo Gradle compartido entre los dos proyectos) —
+  usado por CapabilityClient para que el reloj y el teléfono se descubran entre sí.
+-->
+<resources>
+    <string name="wear_capability" translatable="false">tutunaku_wear_app</string>
+</resources>
