@@ -1,0 +1,19 @@
+{
+  "model_name": "anomaly_detector",
+  "version": "1.0.0",
+  "algorithm": "IsolationForest(n_estimators=100, contamination=0.02)",
+  "task": "anomaly_detection",
+  "features": [
+    "xp_gained",
+    "session_duration_seconds",
+    "seconds_since_prev_event",
+    "events_last_hour_user"
+  ],
+  "metrics": {
+    "precision_vs_injected": 0.5024813895781638,
+    "recall_vs_injected": 0.7941176470588235,
+    "f1_vs_injected": 0.6155015197568389
+  },
+  "trained_at": "2026-08-01T01:10:15.234317+00:00",
+  "notes": "Pipeline = StandardScaler + detector no supervisado. predict() devuelve -1 para anomalia y 1 para normal (convencion sklearn). Para un score de confianza continuo usar decision_function() (mas negativo = mas anomalo) o score_samples() si el estimador final lo soporta (IsolationForest si; OneClassSVM solo decision_function). is_anomaly_injected fue usado UNICAMENTE para calcular las metricas de validacion externa, nunca como feature de entrenamiento."
+}

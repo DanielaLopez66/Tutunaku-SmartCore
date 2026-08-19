@@ -1,0 +1,25 @@
+{
+  "model_name": "navigation_markov",
+  "version": "1.0.0",
+  "algorithm": "first_order_markov_chain",
+  "task": "sequence_analysis",
+  "states": [
+    "home",
+    "mapa_niveles",
+    "leccion",
+    "ejercicio",
+    "resultado",
+    "logros",
+    "leaderboard",
+    "perfil",
+    "configuracion",
+    "salir"
+  ],
+  "metrics": {
+    "train_holdout_matrix_mean_abs_diff": 0.00500943367357889,
+    "kmeans_silhouette_k3": 0.36868302087830296,
+    "kmeans_silhouette_k4": 0.27524325655171955
+  },
+  "trained_at": "2026-08-01T01:05:40.427854+00:00",
+  "notes": "Uso: dado un current_state, transition_matrix.loc[current_state] entrega la distribucion de probabilidad de la siguiente pagina (Serie indexada por pagina, suma 1.0, salvo la fila 'salir' que queda en 0 por ser estado absorbente sin transicion saliente definida). 'top_paths' son las transiciones de 2 pasos mas frecuentes y 'drop_off_points' son las paginas con mayor probabilidad de fuga inmediata, utiles para alertas en un dashboard de retencion."
+}

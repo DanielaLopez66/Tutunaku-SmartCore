@@ -1,0 +1,34 @@
+{
+  "model_name": "platform_load_forecaster",
+  "version": "1.0.0",
+  "algorithm": "GradientBoostingRegressor (gbr_shallow_fast: {'n_estimators': 100, 'max_depth': 3, 'learning_rate': 0.1})",
+  "task": "forecasting",
+  "target": "requests_per_minute",
+  "features": [
+    "hour_of_day",
+    "day_of_week",
+    "active_users",
+    "db_connections",
+    "avg_response_ms",
+    "requests_lag_1h",
+    "requests_lag_24h",
+    "requests_lag_168h",
+    "requests_rolling_mean_24h",
+    "requests_rolling_std_24h"
+  ],
+  "categorical_features": [],
+  "metrics": {
+    "validation": {
+      "mae": 44.74209232158052,
+      "rmse": 61.550384280858545,
+      "mape": 5.438934659089267
+    },
+    "test": {
+      "mae": 57.94413722283123,
+      "rmse": 92.96362056285918,
+      "mape": 5.592316671814853
+    }
+  },
+  "trained_at": "2026-07-31T19:08:29.629123",
+  "notes": "Se probaron 3 configuraciones de GradientBoostingRegressor (variando n_estimators, max_depth y learning_rate) respetando el orden cronologico de los datos, y se compararon contra un baseline naive de persistencia (requests_lag_1h) en validacion. Mejor MAE ML=44.742 vs baseline MAE=119.880. Se selecciono como modelo final: GradientBoostingRegressor (gbr_shallow_fast: {'n_estimators': 100, 'max_depth': 3, 'learning_rate': 0.1})."
+}

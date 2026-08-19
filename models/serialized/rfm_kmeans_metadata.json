@@ -1,0 +1,24 @@
+{
+  "model_name": "rfm_kmeans",
+  "version": "1.0.0",
+  "algorithm": "kmeans",
+  "task": "clustering",
+  "features": [
+    "recency_days",
+    "frequency_sessions",
+    "educational_value_xp"
+  ],
+  "k": 3,
+  "cluster_profiles": {
+    "0": "recency_days~0.9, frequency_sessions~16.4, educational_value_xp~3291 (n=206)",
+    "1": "recency_days~1.9, frequency_sessions~8.0, educational_value_xp~1111 (n=515)",
+    "2": "recency_days~11.7, frequency_sessions~6.4, educational_value_xp~756 (n=79)"
+  },
+  "metrics": {
+    "silhouette": 0.4310555842370513,
+    "davies_bouldin": 0.8295463203460799,
+    "inertia": 950.9244075151862
+  },
+  "trained_at": "2026-08-01T01:08:29.808216+00:00",
+  "notes": "Pipeline = StandardScaler + KMeans, entrenado sobre las 3 variables RFM (recency_days, frequency_sessions, educational_value_xp). Se eligio KMeans sobre AgglomerativeClustering porque el servicio debe poder llamar .predict() sobre usuarios NUEVOS via API, algo que AgglomerativeClustering no soporta nativamente (comparacion de calidad entre ambos esta en la seccion 4 del notebook: silhouette y Davies-Bouldin). engagement_segment (etiqueta latente del simulador) se uso solo como validacion externa via crosstab, nunca como feature de entrenamiento."
+}
