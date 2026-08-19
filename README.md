@@ -77,6 +77,8 @@ Para confirmar este problema, el proyecto contempla la aplicación de encuestas 
 | Insight   | El tutunaku necesita un vehículo digital atractivo que conecte con los intereses reales de los usuarios.        |
 
 ---
+## Cronograma 
+<img src="imagenes/tutunaku.png"/>
 
 ## Pregunta Detonadora
 
