@@ -80,11 +80,13 @@ Para confirmar este problema, el proyecto contempla la aplicación de encuestas 
 ## Cronograma 
 <img src="imagenes/tutunaku.png"/>
 
-## Pregunta Detonadora
+---
 
-> ¿Cómo podríamos difundir y rescatar la lengua tutunaku mediante una plataforma web gamificada que, basada en las necesidades detectadas en nuestras encuestas, permita a cualquier usuario aprender de forma interactiva y atractiva?
+## Diagrama de Tareas
+<img src="imagenes/Reparto.png"/>
 
 ---
+
 
 ## Encuesta del Proyecto
 
@@ -212,6 +214,11 @@ flowchart LR
 | Control de versiones | Git y GitHub | Gestión del código fuente.                           |
 
 <div align="center">
+
+---
+
+## Tecnologías utilizadas
+<img src="imagenes/tecnologias.jpg"/>
 
 ---
 
